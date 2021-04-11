@@ -1,31 +1,58 @@
 module.exports = {
   root: true,
-  env: {
-    node: true,
-  },
+  plugins: ["prettier", "@typescript-eslint"],
   extends: [
-    "plugin:vue/essential",
     "eslint:recommended",
-    "@vue/typescript/recommended",
-    "@vue/prettier",
-    "@vue/prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
   ],
+  env: { browser: true, node: true, es6: true },
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: 2020,
+    sourceType: "module"
   },
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "no-dupe-class-members": "off",
+    "no-prototype-builtins": "warn",
+    "require-await": "warn"
   },
   overrides: [
     {
-      files: [
-        "**/__tests__/*.{j,t}s?(x)",
-        "**/tests/unit/**/*.spec.{j,t}s?(x)",
-      ],
+      files: ["src/**/*.spec.ts"],
       env: {
-        jest: true,
+        jest: true
       },
+      rules: {
+        "@typescript-eslint/no-var-requires": "off"
+      }
     },
-  ],
+    {
+      files: ["src/**/*.{ts,vue}"],
+      parser: "vue-eslint-parser",
+      parserOptions: {
+        parser: "@typescript-eslint/parser"
+      },
+      extends: ["plugin:vue/recommended", "prettier/vue"],
+      rules: {
+        "@typescript-eslint/no-unused-vars": "error",
+        "no-console": "off",
+        "no-prototype-builtins": "off",
+        "no-unreachable": "error",
+        "no-unused-vars": "off",
+        "vue/no-unused-vars": "off",
+        "vue/valid-v-slot": "off",
+        "vue/require-prop-types": "off",
+        "vue/no-side-effects-in-computed-properties": "off"
+      }
+    }
+  ]
 };
